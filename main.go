@@ -12,23 +12,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	ignoreList := []string{"Username", "Hostname"}
-
-	title := fmt.Sprintf("%s@%s", info["Username"], info["Hostname"])
-	titleUnderline := ""
-	for i := 0; i < len(title); i++ {
-		titleUnderline = fmt.Sprintf("=%s", titleUnderline)
-	}
-	fmt.Printf(
-		"%s\n%s\n",
-		title,
-		titleUnderline,
-	)
+	config := DefaultConfig
 
 	for key, value := range info {
-		if slices.Contains(ignoreList, key) {
+		if slices.Contains(config.ignoreList, key) {
 			continue
 		}
-		fmt.Printf("%s: %s\n", key, value)
+
+		if key == "Title" || key == "TitleUnderline" {
+			fmt.Printf("%s\n", value)
+		} else {
+			fmt.Printf("%s: %s\n", key, value)
+		}
 	}
 }
